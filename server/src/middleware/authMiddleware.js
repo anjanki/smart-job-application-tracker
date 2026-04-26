@@ -15,26 +15,30 @@ const protect = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "Not authorized, no token provided",
+        message: "Not authorized, token missing",
+        data: null,
       });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decoded.userId).select("-password");
+    const user = await User.findById(decoded.userId).select("-password");
 
-    if (!req.user) {
+    if (!user) {
       return res.status(401).json({
         success: false,
-        message: "User not found",
+        message: "Not authorized, user not found",
+        data: null,
       });
     }
 
+    req.user = user;
     next();
   } catch (error) {
     return res.status(401).json({
       success: false,
-      message: "Not authorized, token failed",
+      message: "Not authorized, token invalid",
+      data: null,
     });
   }
 };

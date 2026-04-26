@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const jobSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: [true, "User is required"],
-    },
     company: {
       type: String,
       required: [true, "Company is required"],
@@ -19,22 +14,21 @@ const jobSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Applied", "Interview", "Rejected", "Offer"],
+      enum: ["Applied", "Interview", "Rejected"],
       default: "Applied",
     },
-    date: {
-      type: Date,
-      default: Date.now,
-    },
-    notes: {
+    link: {
       type: String,
       trim: true,
       default: "",
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Job", jobSchema);

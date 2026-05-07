@@ -4,7 +4,7 @@ const {
   getJobs,
   updateJob,
   deleteJob,
-} = require("../controllers/temp");
+} = require("../controllers/jobController");
 const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
